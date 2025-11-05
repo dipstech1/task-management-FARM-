@@ -1,0 +1,17 @@
+fastapi
+uvicorn
+beanie
+motor
+python-jose
+bcrypt
+fastapi-cache2
+aioredis
+loguru
+sentry-sdk
+secure
+slowapi
+python-dotenv
+pytest
+httpx
+black
+isort
