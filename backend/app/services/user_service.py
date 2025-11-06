@@ -1,14 +1,19 @@
 from fastapi import HTTPException
 from app.schemas.user_schema import SignupRequestSchema,SingupResponseSchema
+from app.models.user_model import UserModel
+from app.core.config import settings
 
 class UserService:
 
     def __init__(self) -> None:
         """Used when you want to store per-instance resources like DB connections."""
-        # self.repository = user_repository
+        # self.user = UserModel
 
     def sign_up(self,user_data:SignupRequestSchema) -> SingupResponseSchema:
         self.validate_user_input(user_data)
+        new_user = UserModel(**user_data.model_dump())
+        print("settings ", settings.model_dump())
+        new_user.insert()
         return SingupResponseSchema(data=None, message="User created successfully")
     
     @staticmethod
