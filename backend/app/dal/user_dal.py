@@ -9,3 +9,7 @@ class UserDAL:
     async def add_user(self,user_data : UserModel ):
         new_user = await user_data.save()
         return new_user
+
+    async def get_user_details(self, email:str):
+        data:UserModel | None = await UserModel.find_one(UserModel.email == email )
+        return data

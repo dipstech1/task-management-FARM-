@@ -9,14 +9,18 @@ class UserService:
     def __init__(self) -> None:
         """Used when you want to store per-instance resources like DB connections."""
         # self.user = UserModel
-        self.user_dal = UserDAL()
+        self.USER_DAL = UserDAL()
 
     async def sign_up(self,user_data:SignupRequestSchema) -> SingupResponseSchema:
         try:
             self.validate_user_input(user_data)
             new_user = UserModel(first_name=user_data.first_name, last_name=user_data.last_name,email=user_data.email,role=user_data.role,password=user_data.password)
-            new_user_data = await self.user_dal.add_user(new_user)
-            return SingupResponseSchema(data=new_user_data, message="User created successfully")
+            is_new_user = await self.USER_DAL.get_user_details(new_user.email)
+            if not is_new_user:
+                new_user_data = await self.USER_DAL.add_user(new_user)
+                return SingupResponseSchema(data=new_user_data, message="User created successfully")
+            else:
+                return SingupResponseSchema(data=None, message="User already exist")
         except Exception as e:
             print(e)
             return SingupResponseSchema(data=None, message="Something went wrong")
