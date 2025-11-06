@@ -1,10 +1,10 @@
 from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase
 from beanie import init_beanie
 
-from app.models import user_model
+from app.models import collection
 from app.core.config import settings
 
-models = [user_model.UserModel]
+models = collection.COLLECTION.get_all_collections()
 
 client: AsyncIOMotorClient | None = None
 database = None
@@ -15,13 +15,14 @@ class Database:
 
 db_instance = Database()
 
-async def init_mongodb():
+async def init_mongodb(): 
     # Create Motor client
 
-    db_instance.client = AsyncIOMotorClient("mongodb://localhost:27017")
+    db_instance.client = AsyncIOMotorClient(settings.MONGO_URI)
 
     # Choose database
     db_instance.db = db_instance.client[settings.DB_NAME]
+    print("models ", models)
     try:
         await init_beanie(database=db_instance.db, document_models=models)  # type: ignore
         print("Connected to MongoDB!")
