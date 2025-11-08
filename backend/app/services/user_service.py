@@ -1,9 +1,8 @@
 from fastapi import HTTPException
 from app.schemas.user_schema import SignupRequestSchema,SingupResponseSchema
 from app.models.user_model import UserModel
-from app.core.config import settings
 from app.dal.user_dal import UserDAL
-
+from app.helpers.error_handler.custom_errors import ExistingUserException
 class UserService:
 
     def __init__(self) -> None:
@@ -12,7 +11,6 @@ class UserService:
         self.USER_DAL = UserDAL()
 
     async def sign_up(self,user_data:SignupRequestSchema) -> SingupResponseSchema:
-        try:
             self.validate_user_input(user_data)
             new_user = UserModel(first_name=user_data.first_name, last_name=user_data.last_name,email=user_data.email,role=user_data.role,password=user_data.password)
             is_new_user = await self.USER_DAL.get_user_details(new_user.email)
@@ -20,10 +18,8 @@ class UserService:
                 new_user_data = await self.USER_DAL.add_user(new_user)
                 return SingupResponseSchema(data=new_user_data, message="User created successfully")
             else:
-                return SingupResponseSchema(data=None, message="User already exist")
-        except Exception as e:
-            print(e)
-            return SingupResponseSchema(data=None, message="Something went wrong")
+                raise ExistingUserException(f"{new_user.email} already exist") 
+        
     
     @staticmethod
     def validate_user_input(user_data: SignupRequestSchema):

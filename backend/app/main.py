@@ -1,6 +1,9 @@
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
 
+from app.helpers.error_handler.error_handler import register_all_errors
+from app.helpers.middleware.http_middleware import register_middleware
+
 from app.routes.auth_routes import route as authRoute
 
 from app.core.db import init_mongodb, close_mongo_connection
@@ -14,7 +17,14 @@ async def life_span(app:FastAPI):
 
 app = FastAPI(lifespan=life_span)
 
+register_all_errors(app)
+
+register_middleware(app)
+
+
+
 app.include_router(authRoute )
+
 
 @app.get("/health")
 def health_check():
