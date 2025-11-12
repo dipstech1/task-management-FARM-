@@ -3,6 +3,7 @@ from fastapi.responses import JSONResponse
 from typing import  Any, Callable, TypedDict
 from app.helpers.error_handler.custom_errors import APIError
 from datetime import datetime, timezone
+from app.core.logger import log_error
 
 app = FastAPI()
 
@@ -15,7 +16,7 @@ class HttpExceptionData(TypedDict):
 def register_all_errors(app: FastAPI):
     @app.exception_handler(APIError)
     async def handle_custom_exception(request:Request, exe:APIError):
-                print("handle_custom_exception")
+                log_error(exe.detail)
                 return JSONResponse(
                     status_code = exe.status_code,
                     content={
@@ -27,6 +28,7 @@ def register_all_errors(app: FastAPI):
 
     @app.exception_handler(HTTPException)
     async def handle_http_error(request:Request,status_code:int, exe:HttpExceptionData):
+                        log_error(exe['message'])
                         return JSONResponse(
                             status_code=status_code,
                             content={
@@ -37,6 +39,7 @@ def register_all_errors(app: FastAPI):
 
     @app.exception_handler(status.HTTP_500_INTERNAL_SERVER_ERROR)
     async def handle_internal_server_error(request:Request, exe:HttpExceptionData):
+                        log_error(exe['message'])
                         return JSONResponse(
                             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             content={
