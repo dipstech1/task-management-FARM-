@@ -33,3 +33,11 @@ class InvalidPasswordException(APIError):
             message= usr_message or '',
             error_code="INVALID"
         )
+
+class AuthenticationException(APIError):
+    def __init__(self, usr_message:Optional[str] = ''):
+        super().__init__(
+            status_code= status.HTTP_401_UNAUTHORIZED,
+            message= 'Auth credential not provided',
+            error_code="UNAUTHORIZED"
+        )

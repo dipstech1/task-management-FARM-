@@ -39,7 +39,6 @@ class AuthService:
             }
             token = create_jwt(user_token_data)
 
-            print("token , ", token) 
 
             return SigninResponse(data=token, success=True)
     

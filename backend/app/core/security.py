@@ -25,3 +25,5 @@ def create_jwt(data:dict, expiry_time :int | None = None):
     token = jwt.encode(claims=encode_data, key=settings.JWT_SECRET, algorithm=settings.JWT_ALGORITHM)
     return token
     
+def decode_jwt(token:str) :
+    return jwt.decode(token=token,key=settings.JWT_SECRET, algorithms=settings.JWT_ALGORITHM)

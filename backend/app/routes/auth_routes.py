@@ -1,6 +1,7 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 from app.schemas.user_schema import SignupRequestSchema,SingupResponseSchema, SignInRequestSchema,SigninResponse
 from app.services.auth_service import AuthService
+from app.helpers.get_current_user import get_current_user_deatils
 
 user_service = AuthService()
 
@@ -17,3 +18,8 @@ async def login(login_request :SignInRequestSchema ):
     except Exception:
         # Re-raise the exception so the registered exception handlers handle it
         raise
+
+
+@route.post("/private")
+async def private_route(user_id = Depends(get_current_user_deatils)):
+    return {"message" : f"User id is ${user_id}"}
