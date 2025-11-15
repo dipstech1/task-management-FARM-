@@ -5,7 +5,7 @@ from datetime import datetime, timezone
 from typing import Callable
 from fastapi import Request
 
-from app.helpers.error_handler.custom_errors import APIError
+from app.core.error_handler.custom_errors import APIError
 
 
 async def wrap_response(request: Request, call_next: Callable):

@@ -2,7 +2,7 @@ from fastapi import HTTPException
 from app.schemas.user_schema import SignupRequestSchema,SingupResponseSchema, SignInRequestSchema,SigninResponse
 from app.models.user_model import UserModel
 from app.dal.user_dal import UserDAL
-from app.helpers.error_handler.custom_errors import ExistingUserException,UserNotFoundException,InvalidPasswordException
+from app.core.error_handler.custom_errors import ExistingUserException,UserNotFoundException,InvalidPasswordException
 from app.core.security import hash_data, decode_data, create_jwt
 
 class AuthService:

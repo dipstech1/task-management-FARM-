@@ -2,7 +2,7 @@ from fastapi import HTTPException, Request, status
 from fastapi.responses import JSONResponse
 from fastapi.exceptions import RequestValidationError, ResponseValidationError
 from typing import TypedDict
-from app.helpers.error_handler.custom_errors import APIError
+from app.core.error_handler.custom_errors import APIError
 from datetime import datetime, timezone
 from app.core.logger import log_error
 

@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
 
-from app.helpers.error_handler.error_handler import register_all_errors
+from app.core.error_handler.error_handler import register_all_errors
 from app.core.middleware.http_middleware  import register_middleware
 
 from app.routes.auth_routes import route as authRoute
