@@ -1,6 +1,7 @@
 from pydantic import BaseModel,Field,EmailStr
 from enum import Enum
 from typing import Any
+from app.schemas.base_schema import BaseResponseSchema
 
 class Roles(Enum):
     ADMIN = 1
@@ -14,6 +15,14 @@ class SignupRequestSchema(BaseModel):
     password:str = Field(title="Password", min_length=5)
     role:Roles = Field(title="User role", default=Roles.EMPLOYEE)
 
-class SingupResponseSchema(BaseModel):
+class SignInRequestSchema(BaseModel):
+    email : EmailStr = Field(...,title='User email')
+    password : str = Field(...,title='User email')
+
+class SingupResponseSchema(BaseResponseSchema):
     data:Any | None = Field(default=None)
     message:str = Field(title="Message")
+
+class SigninResponse(BaseResponseSchema):
+    pass
+    
