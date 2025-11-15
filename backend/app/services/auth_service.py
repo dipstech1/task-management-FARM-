@@ -32,11 +32,10 @@ class AuthService:
 
             if not is_password_same:
                  raise InvalidPasswordException(usr_message="Invalid credentials")
-            
-            print("user_exist ", user_exist)
-            
+                        
             user_token_data = {
                  "email" : user_exist.email,
+                 "id" : str(user_exist.id)
             }
             token = create_jwt(user_token_data)
 
