@@ -5,6 +5,7 @@ from app.core.error_handler.error_handler import register_all_errors
 from app.core.middleware.http_middleware  import register_middleware
 
 from app.routes.auth_routes import route as authRoute
+from app.routes.user_routes import user_routes
 
 from app.core.db import init_mongodb, close_mongo_connection
 
@@ -23,7 +24,8 @@ register_middleware(app)
 
 
 
-app.include_router(authRoute )
+app.include_router(authRoute,prefix="/api" )
+app.include_router(user_routes, prefix="/api")
 
 
 @app.get("/health")

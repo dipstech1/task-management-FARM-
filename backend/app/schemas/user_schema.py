@@ -23,6 +23,12 @@ class SingupResponseSchema(BaseResponseSchema):
     data:Any | None = Field(default=None)
     message:str = Field(title="Message")
 
+class UserDetailSchema(BaseModel):
+    first_name:str = Field(title="First name")
+    last_name:str = Field(title="Last name")
+    email:EmailStr = Field(title="Email")
+    role:Roles = Field(title="User role", default=Roles.EMPLOYEE)
+
 class SigninResponse(BaseResponseSchema):
     pass
     
