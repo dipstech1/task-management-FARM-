@@ -20,3 +20,7 @@ class UserService:
             return {
                 "data" : "No user found"
             }
+
+    async def get_all_users(self):
+        users = await self.userDAL.get_all_users()
+        return [UserDetailSchema(**user.model_dump()) for user in users]

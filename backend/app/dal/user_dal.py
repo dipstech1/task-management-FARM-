@@ -20,3 +20,6 @@ class UserDAL:
         print("DOC IDDDDDDDD ", id)
         data : UserModel | None = await UserModel.get(id)
         return data
+
+    async def get_all_users(self):
+        return await UserModel.find_all().to_list()

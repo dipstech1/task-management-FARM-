@@ -8,11 +8,14 @@ from app.routes.auth_routes import route as authRoute
 from app.routes.user_routes import user_routes
 
 from app.core.db import init_mongodb, close_mongo_connection
+from fastapi_cache import FastAPICache
+from app.core.cache import LRUBackend
 
 
 @asynccontextmanager
 async def life_span(app:FastAPI):
     await init_mongodb()
+    FastAPICache.init(LRUBackend(capacity=1000), prefix="fastapi-cache")
     yield
     await close_mongo_connection()
 
