@@ -1,5 +1,5 @@
 from fastapi import HTTPException
-from app.schemas.user_schema import SignupRequestSchema,SingupResponseSchema, SignInRequestSchema,SigninResponse
+from app.schemas.user_schema import Roles, SignupRequestSchema,SingupResponseSchema, SignInRequestSchema,SigninResponse
 from app.models.user_model import UserModel
 from app.dal.user_dal import UserDAL
 from app.core.error_handler.custom_errors import ExistingUserException,UserNotFoundException,InvalidPasswordException
@@ -34,9 +34,11 @@ class AuthService:
                  raise InvalidPasswordException(usr_message="Invalid credentials")
                         
             user_token_data = {
-                 "email" : user_exist.email,
-                 "id" : str(user_exist.id)
-            }
+                  "email": user_exist.email,
+                  # If `role` is an Enum member use its value, otherwise coerce to string
+                  "role": getattr(user_exist.role, "value", str(user_exist.role)),
+                  "id": str(user_exist.id),
+               }
             token = create_jwt(user_token_data)
 
 

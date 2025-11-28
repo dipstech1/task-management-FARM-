@@ -1,12 +1,12 @@
 from pydantic import BaseModel,Field,EmailStr
 from enum import Enum
-from typing import Any
+from typing import Any, TypedDict
 from app.schemas.base_schema import BaseResponseSchema
 
 class Roles(Enum):
-    ADMIN = 1
-    MANAGER = 2
-    EMPLOYEE = 3
+    ADMIN = 'ADMIN'
+    MANAGER = 'MANAGER'
+    EMPLOYEE = 'EMPLOYEE'
 
 class SignupRequestSchema(BaseModel):
     first_name:str = Field(title="First name")
@@ -31,4 +31,8 @@ class UserDetailSchema(BaseModel):
 
 class SigninResponse(BaseResponseSchema):
     pass
-    
+
+
+class UserPayload(TypedDict):
+    user_id : str | None
+    role : str
