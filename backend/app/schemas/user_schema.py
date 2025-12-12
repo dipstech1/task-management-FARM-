@@ -1,4 +1,5 @@
 from pydantic import BaseModel,Field,EmailStr
+from beanie import PydanticObjectId
 from enum import Enum
 from typing import Any, TypedDict
 from app.schemas.base_schema import BaseResponseSchema
@@ -24,6 +25,7 @@ class SingupResponseSchema(BaseResponseSchema):
     message:str = Field(title="Message")
 
 class UserDetailSchema(BaseModel):
+    id:PydanticObjectId = Field(title="Id")
     first_name:str = Field(title="First name")
     last_name:str = Field(title="Last name")
     email:EmailStr = Field(title="Email")

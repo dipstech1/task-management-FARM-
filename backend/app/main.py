@@ -6,6 +6,8 @@ from app.core.middleware.http_middleware  import register_middleware
 
 from app.routes.auth_routes import route as authRoute
 from app.routes.user_routes import user_routes
+from app.routes.task_routes import task_router
+from app.routes.project_routes import project_routes
 
 from app.core.db import init_mongodb, close_mongo_connection
 from fastapi_cache import FastAPICache
@@ -29,6 +31,8 @@ register_middleware(app)
 
 app.include_router(authRoute,prefix="/api" )
 app.include_router(user_routes, prefix="/api")
+app.include_router(task_router, prefix="/api")
+app.include_router(project_routes, prefix="/api")
 
 
 @app.get("/health")
